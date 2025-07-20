@@ -14,6 +14,8 @@ public:
 	Creature(string n, string d, Room* loc);
 	Creature(EntityType t, string n, string d, Room* loc);
 	~Creature();
+	Room* getLocation() const;
+	void setLocation(Room* r);
 };
 
 #endif // CREATURE_H

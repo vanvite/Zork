@@ -10,7 +10,7 @@ Creature::Creature(string n, string d, Room* loc)
 	// Initializer list used
 }
 
-// Constructor with child class
+// Constructor with type of Creature Entity
 Creature::Creature(EntityType t, string n, string d, Room* loc)
 	: Entity(t, n, d),
 	location(loc)
@@ -22,4 +22,16 @@ Creature::Creature(EntityType t, string n, string d, Room* loc)
 Creature::~Creature()
 {
 	delete location;
+}
+
+// Returns the Creature's location
+Room* Creature::getLocation() const
+{
+	return location;
+}
+
+// Sets the Creature's location
+void Creature::setLocation(Room* r)
+{
+	location = r;
 }

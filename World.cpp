@@ -16,3 +16,15 @@ World::~World()
 		delete entities[i];
 	}
 }
+
+// Returns the vector of Entities in the World
+vector<Entity*> World::getEntities() const
+{
+	return entities;
+}
+
+// Sets the vector of Entities in the World
+void World::setEntities(vector<Entity*> e)
+{
+	entities = e;
+}

@@ -20,6 +20,12 @@ private:
 public:
 	Exit(string n, string d, ExitDirection dir, Room* src, Room* des);
 	~Exit();
+	ExitDirection getDirection() const;
+	Room* getSource() const;
+	Room* getDestination() const;
+	void setDirection(ExitDirection dir);
+	void setSource(Room* src);
+	void setDestination(Room* des);
 };
 
 #endif // EXIT_H

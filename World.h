@@ -15,6 +15,8 @@ private:
 public:
 	World();
 	~World();
+	vector<Entity*> getEntities() const;
+	void setEntities(vector<Entity*> e);
 };
 
 #endif // WORLD_H
