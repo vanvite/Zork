@@ -1,22 +1,20 @@
-// C++ Test - Simple Zork Game Assignment
-// by Van Wreena Xiel Vite
+// myZork game created by Van Vite
 #ifndef WORLD_H
 #define WORLD_H
 
-using namespace std;
-#include <iostream>
 #include <vector>
 #include "Entity.h"
+class Player;
 
 class World
 {
 private:
 	vector<Entity*> entities;
+	Player* alice;
 public:
 	World();
 	~World();
-	vector<Entity*> getEntities() const;
-	void setEntities(vector<Entity*> e);
+	void ParseCommand(string c);
 };
 
 #endif // WORLD_H
