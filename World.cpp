@@ -9,7 +9,7 @@
 #include <string>
 
 // Constructor
-World::World() : gameWon(0)
+World::World()
 {
 	// Rooms
 	Room* roomHole = new Room("Rabbit Hole", "");
@@ -24,16 +24,16 @@ World::World() : gameWon(0)
 	entities.push_back(roomGarden);
 
 	// Creatures
-	alice = new Player("Alice", "", roomHole);
+	alice = new Player("ALICE", "", roomHole);
 	entities.push_back(alice);
 
-	string dMadHatter = "";
-	NPC* npcMadHatter = new NPC("Mad Hatter", "", roomParty, dMadHatter);
-	entities.push_back(npcMadHatter);
+	string dHatter = "";
+	NPC* npcHatter = new NPC("HATTER", "", roomParty, dHatter);
+	entities.push_back(npcHatter);
 
-	string dCheshireCat = "";
-	NPC* npcCheshireCat = new NPC("Cheshire Cat", "", roomWood, dCheshireCat);
-	entities.push_back(npcCheshireCat);
+	string dCat = "";
+	NPC* npcCat = new NPC("CAT", "", roomWood, dCat);
+	entities.push_back(npcCat);
 
 	// Rabbit Hole exits and items
 	Exit* exitHoleW = new Exit("West Exit", "A small brown door", ExitDirection::WEST, roomHole, roomWood);
@@ -46,7 +46,7 @@ World::World() : gameWon(0)
 	// Tulgey Wood exits and items
 	Exit* exitWoodE = new Exit("East Exit", "A small brown door", ExitDirection::EAST, roomWood, roomHole);
 	Item* itemTree = new Item("Tumtum Tree", "descr");
-	Item* itemClock = new Item("Alarm Clock", "descr");
+	Item* itemClock = new Item("CLOCK", "descr");
 	entities.push_back(exitWoodE);
 	entities.push_back(itemTree);
 	entities.push_back(itemClock);
@@ -54,7 +54,7 @@ World::World() : gameWon(0)
 	// White Rabbit's House exits and items
 	Exit* exitHouseW = new Exit("West Exit", "An open tunnel", ExitDirection::WEST, roomHouse, roomHole);
 	Exit* exitHouseS = new Exit("South Exit", "An open pathway", ExitDirection::SOUTH, roomHouse, roomGarden);
-	Item* itemPotion = new Item("Potion Bottle", "descr");
+	Item* itemPotion = new Item("POTION", "descr");
 	entities.push_back(exitHouseW);
 	entities.push_back(exitHouseS);
 	entities.push_back(itemPotion);
@@ -62,7 +62,7 @@ World::World() : gameWon(0)
 	// Tea Party exits and items
 	Exit* exitPartyN = new Exit("North Exit", "A small purple door", ExitDirection::NORTH, roomParty, roomHole);
 	Exit* exitPartyE = new Exit("East Exit", "An open gate", ExitDirection::EAST, roomParty, roomGarden);
-	Item* itemCake = new Item("Cake", "descr");
+	Item* itemCake = new Item("CAKE", "descr");
 	entities.push_back(exitPartyN);
 	entities.push_back(exitPartyE);
 	entities.push_back(itemCake);
@@ -71,11 +71,11 @@ World::World() : gameWon(0)
 	Exit* exitGardenN = new Exit("North Exit", "An open pathway", ExitDirection::NORTH, roomGarden, roomHouse);
 	Exit* exitGardenW = new Exit("West Exit", "An open gate", ExitDirection::WEST, roomGarden, roomParty);
 	Item* itemToolshed = new Item("Toolshed", "descr");
-	Item* itemBells = new Item("Clock Bells", "descr");
+	Item* itemGears = new Item("GEARS", "descr");
 	entities.push_back(exitGardenN);
 	entities.push_back(exitGardenW);
 	entities.push_back(itemToolshed);
-	entities.push_back(itemBells);
+	entities.push_back(itemGears);
 }
 
 // Destructor
@@ -87,51 +87,67 @@ World::~World()
 	}
 }
 
+vector<string> World::SplitString(string c, string delimiter)
+{
+	vector<string> s;
+	size_t start = 0; cout << "start: " << start << endl;
+	size_t end = c.find(delimiter); cout << "end: " << end << endl;
+	while (end != string::npos)
+	{
+		s.push_back(c.substr(start, end-start));
+		start = end + delimiter.length();
+		end = c.find(delimiter, start);
+	}
+	return s;
+}
+
 void World::ParseCommand(string& command)
 {
 	if (!command.empty())
 	{
-		vector<string> c;
-
+		vector<string> c = SplitString(command, " ");
 		bool isValid = 0;
-		if (c[0] == "LOOK"){
-			alice->Look(c);
-			isValid = 1;
-		}
-		else if (c[0] == "GO"){
-			isValid = alice->Go(c);
-		}
-		else if (c[0] == "TALK"){
-			isValid = alice->TalkTo(c);
-		}
-		else if (c[0] == "TAKE"){
-			isValid = alice->Take(c);
-		}
-		else if (c[0] == "DROP"){
-			isValid = alice->Drop(c);
-		}
-		else if (c[0] == "USE"){
-			isValid = alice->Use(c, gameWon);
-			if (gameWon) {
-				ShowWin();
-				command = "EXIT GAME";
-			}
-		}
-		else if (c[0] == "PUT"){
-			isValid = alice->PutIn(c);
-		}
-		else {
-			isValid = 0;
-		}
 
-		if (!isValid)
+		if (!c.empty())
 		{
-			cout << "I don't understand that command.\n";
+			if (c[0] == "LOOK") {
+				isValid = alice->Look(c);
+			}
+			else if (c[0] == "GO") {
+				isValid = alice->Go(c);
+			}
+			else if (c[0] == "ASK") {
+				isValid = alice->Ask(c);
+			}
+			else if (c[0] == "TAKE") {
+				isValid = alice->Take(c);
+			}
+			else if (c[0] == "DROP") {
+				isValid = alice->Drop(c);
+			}
+			else if (c[0] == "USE") {
+				isValid = alice->Use(c);
+			}
+			else if (c[0] == "PUT") {
+				isValid = alice->PutIn(c);
+				if (alice->getGameWon()) {
+					ShowWin();
+					command = "QUIT GAME";
+				}
+			}
+			else {
+				isValid = 0;
+			}
+
+			if (!isValid)
+			{
+				cout << "I cannot perform that command.\n";
+			}
 		}
 	}
 }
 
 void World::ShowWin()
 {
-	cout << "Game Over - Alice is awoken by the alarm clock and escapes Wonderland!\n";
+	cout << "The alarm clock rings... Alice wakes up and escapes Wonderland!\n";
 }

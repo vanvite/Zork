@@ -11,10 +11,10 @@ class World
 private:
 	vector<Entity*> entities;
 	Player* alice;
-	bool gameWon;
 public:
 	World();
 	~World();
+	vector<string> SplitString(string c, string delimiter);
 	void ParseCommand(string& command);
 	void ShowWin();
 };
