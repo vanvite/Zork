@@ -1,11 +1,11 @@
-// C++ Test - Simple Zork Game Assignment
-// by Van Wreena Xiel Vite
+// myZork game created by Van Vite
 #include "Player.h"
 
 // Constructor
 Player::Player(string n, string d, Room* loc)
 	: Creature(EntityType::PLAYER, n, d, loc),
-	status(Size::NORMAL)
+	status(Size::NORMAL),
+	gameWon(0)
 {
 	// Initializer list used
 }
@@ -16,10 +16,33 @@ Player::~Player()
 	//
 }
 
-// Prints description of current room and Player status
-void Player::Look(vector<string> action)
+string Player::getstrStatus() const
 {
-	//
+	switch (status)
+	{
+	case Size::SMALL:
+		return "Small";
+		break;
+	case Size::NORMAL:
+		return "Normal";
+		break;
+	case Size::LARGE:
+		return "Large";
+		break;
+	default:
+		return "unknown";
+	}
+}
+
+bool Player::getGameWon() const
+{
+	return gameWon;
+}
+
+// Prints description of current room and Player status
+bool Player::Look(vector<string> action)
+{
+	return 1;
 }
 
 // Moves to the adjacent room
@@ -36,18 +59,14 @@ bool Player::Go(vector<string> action)
 }
 
 // Talks to an NPC
-bool Player::TalkTo(vector<string> action)
+bool Player::Ask(vector<string> action)
 {
-	if (!(action[1] == "CHESHIRE" || action[1] == "CAT"
-		|| action[1] == "MAD" || action[1] == "HATTER")
-		||
-		!(action[2] == "CHESHIRE" || action[2] == "CAT"
-			|| action[2] == "MAD" || action[2] == "HATTER"))
+	if (action[1] == "CAT" || action[1] == "HATTER")
 	{
-		return 0;
+		return 1;
 	}
 	else {
-		return 1;
+		return 0;
 	}
 }
 
@@ -76,7 +95,7 @@ bool Player::Drop(vector<string> action)
 }
 
 // Uses an item (e.g. eat cake, drink potion)
-bool Player::Use(vector<string> action, bool& win)
+bool Player::Use(vector<string> action)
 {
 	if (action[1] == "POTION") // Shrink
 	{
@@ -122,14 +141,12 @@ bool Player::Use(vector<string> action, bool& win)
 // Puts one item into another
 bool Player::PutIn(vector<string> action)
 {
-	if (action[1] == "POTION" || action[1] == "CAKE" || action[1] == "CLOCK BELLS")
+	if (action[1] == "POTION" || action[1] == "CAKE")
 	{
-		if (action[2] == "IN")
-		{
-			if (action[3] == "TOOLSHED" || action[3] == "ALARM CLOCK")
+		if (action[2] == "IN") {
+			if (action[3] == "TOOLSHED")
 			{
 				return 1;
-
 			}
 			else {
 				return 0;
@@ -139,7 +156,24 @@ bool Player::PutIn(vector<string> action)
 			return 0;
 		}
 	}
-	else {
+	else if (action[1] == "CLOCK BELLS")
+	{
+		if (action[2] == "IN")
+		{
+			if (action[3] == "ALARM CLOCK") // Player wins
+			{
+				gameWon = 1;
+				return 1;
+			}
+			else {
+				return 0;
+			}
+		}
+		else {
+			return 0;
+		}
+	}
+	else{
 		return 0;
 	}
 }

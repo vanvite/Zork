@@ -9,14 +9,14 @@ int main()
 {
 	World myWorld;
 	cout	<< "Welcome to myZork - a simple text-based game created by Van Vite, "
-			<< "inspired by the game Zork (1977) and the novel Alice's Adventures "
-			<< "in Wonderland (1865). Try the command LOOK AROUND to begin playing. "
-			<< "Enter EXIT GAME to quit.\n\n";
+			<< "inspired by Zork (1977 game) and Alice's Adventures in Wonderland "
+			<< "(1865 novel). Try the command LOOK to begin playing. "
+			<< "Enter QUIT GAME at any time.\n\n";
 	string myCommand = "";
-	while (myCommand != "EXIT GAME")
+	while (myCommand != "QUIT GAME")
 	{
-		//myWorld.ParseCommand(myCommand);
-		getline(cin, myCommand);
+		myWorld.ParseCommand(myCommand);
+		getline(cin >> ws, myCommand);
 		transform(myCommand.begin(), myCommand.end(), myCommand.begin(), ::toupper);
 	}
 	return 0;

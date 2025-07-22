@@ -1,5 +1,4 @@
-// C++ Test - Simple Zork Game Assignment
-// by Van Wreena Xiel Vite
+// myZork game created by Van Vite
 #ifndef PLAYER_H
 #define PLAYER_H
 
@@ -14,15 +13,18 @@ class Player : public Creature
 {
 private:
 	Size status;
+	bool gameWon;
 public:
 	Player(string n, string d, Room* loc);
 	~Player();
-	void Look(vector<string> action);
+	string getstrStatus() const;
+	bool getGameWon() const;
+	bool Look(vector<string> action);
 	bool Go(vector<string> action);
-	bool TalkTo(vector<string> action);
+	bool Ask(vector<string> action);
 	bool Take(vector<string> action);
 	bool Drop(vector<string> action);
-	bool Use(vector<string> action, bool& win);
+	bool Use(vector<string> action);
 	bool PutIn(vector<string> action);
 };
 
