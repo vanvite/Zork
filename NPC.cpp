@@ -1,10 +1,12 @@
 // C++ Test - Simple Zork Game Assignment
 // by Van Wreena Xiel Vite
 #include "NPC.h"
+#include <iostream>
 
 // Constructor
-NPC::NPC(string n, string d, Room* loc)
-	: Creature(EntityType::NPC, n, d, loc)
+NPC::NPC(string n, string d, Room* loc, string dg)
+	: Creature(EntityType::NPC, n, d, loc),
+	strDialog(dg)
 {
 	// Initializer list used
 }
@@ -13,4 +15,14 @@ NPC::NPC(string n, string d, Room* loc)
 NPC::~NPC()
 {
 	//
+}
+
+string NPC::GetDialog() const
+{
+	return strDialog;
+}
+
+void NPC::Speak()
+{
+	cout << getName() << ": " << GetDialog() << endl;
 }

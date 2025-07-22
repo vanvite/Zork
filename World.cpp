@@ -9,7 +9,7 @@
 #include <string>
 
 // Constructor
-World::World()
+World::World() : gameWon(0)
 {
 	// Rooms
 	Room* roomHole = new Room("Rabbit Hole", "");
@@ -25,10 +25,14 @@ World::World()
 
 	// Creatures
 	alice = new Player("Alice", "", roomHole);
-	NPC* npcMadHatter = new NPC("Mad Hatter", "", roomParty);
-	NPC* npcCheshireCat = new NPC("Cheshire Cat", "", roomWood);
 	entities.push_back(alice);
+
+	string dMadHatter = "";
+	NPC* npcMadHatter = new NPC("Mad Hatter", "", roomParty, dMadHatter);
 	entities.push_back(npcMadHatter);
+
+	string dCheshireCat = "";
+	NPC* npcCheshireCat = new NPC("Cheshire Cat", "", roomWood, dCheshireCat);
 	entities.push_back(npcCheshireCat);
 
 	// Rabbit Hole exits and items
@@ -83,9 +87,51 @@ World::~World()
 	}
 }
 
-void World::ParseCommand(string c)
+void World::ParseCommand(string& command)
 {
-	if (!c.empty()) {
-		vector<string> command;
+	if (!command.empty())
+	{
+		vector<string> c;
+
+		bool isValid = 0;
+		if (c[0] == "LOOK"){
+			alice->Look(c);
+			isValid = 1;
+		}
+		else if (c[0] == "GO"){
+			isValid = alice->Go(c);
+		}
+		else if (c[0] == "TALK"){
+			isValid = alice->TalkTo(c);
+		}
+		else if (c[0] == "TAKE"){
+			isValid = alice->Take(c);
+		}
+		else if (c[0] == "DROP"){
+			isValid = alice->Drop(c);
+		}
+		else if (c[0] == "USE"){
+			isValid = alice->Use(c, gameWon);
+			if (gameWon) {
+				ShowWin();
+				command = "EXIT GAME";
+			}
+		}
+		else if (c[0] == "PUT"){
+			isValid = alice->PutIn(c);
+		}
+		else {
+			isValid = 0;
+		}
+
+		if (!isValid)
+		{
+			cout << "I don't understand that command.\n";
+		}
 	}
+}
+
+void World::ShowWin()
+{
+	cout << "Game Over - Alice is awoken by the alarm clock and escapes Wonderland!\n";
 }

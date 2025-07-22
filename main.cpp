@@ -1,8 +1,9 @@
 // myZork game created by Van Vite
 using namespace std;
+#include "World.h"
 #include <iostream>
 #include <string>
-#include "World.h"
+#include <algorithm>
 
 int main()
 {
@@ -14,8 +15,9 @@ int main()
 	string myCommand = "";
 	while (myCommand != "EXIT GAME")
 	{
-		myWorld.ParseCommand(myCommand);
+		//myWorld.ParseCommand(myCommand);
 		getline(cin, myCommand);
+		transform(myCommand.begin(), myCommand.end(), myCommand.begin(), ::toupper);
 	}
 	return 0;
 }

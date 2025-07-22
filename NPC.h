@@ -8,9 +8,12 @@
 class NPC : public Creature
 {
 private:
+	string strDialog;
 public:
-	NPC(string n, string d, Room* loc);
+	NPC(string n, string d, Room* loc, string dg);
 	~NPC();
+	void Speak();
+	string GetDialog() const;
 };
 
 #endif // NPC_H
