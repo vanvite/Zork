@@ -1,5 +1,4 @@
-// C++ Test - Simple Zork Game Assignment
-// by Van Wreena Xiel Vite
+// myZork game created by Van Vite
 #include "NPC.h"
 #include <iostream>
 

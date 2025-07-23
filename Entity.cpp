@@ -49,10 +49,9 @@ void Entity::setContains(vector<Entity*> c){
 	contains = c;
 }
 
-// Updates the state of the Entity
-void Entity::Update()
-{
-	//
+// Virtual function needed for dynamic_cast
+void Entity::Update(){
+	// empty
 }
 
 // Returns string of Entity name and description

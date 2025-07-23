@@ -38,9 +38,9 @@ World::World()
 	roomHole->addContains(npcCat);
 
 	// Rabbit Hole exits and items
-	Exit* exitHoleW = new Exit("West Exit", "A small brown door.", ExitDirection::WEST, roomHole, roomWood);
-	Exit* exitHoleE = new Exit("East Exit", "An open tunnel.", ExitDirection::EAST, roomHole, roomHouse);
-	Exit* exitHoleS = new Exit("South Exit", "A small purple door.", ExitDirection::SOUTH, roomHole, roomParty);
+	Exit* exitHoleW = new Exit("West Exit", "A small brown door.", ExitDirection::WEST, roomHole, roomWood, 1);
+	Exit* exitHoleE = new Exit("East Exit", "An open tunnel.", ExitDirection::EAST, roomHole, roomHouse, 0);
+	Exit* exitHoleS = new Exit("South Exit", "A small purple door.", ExitDirection::SOUTH, roomHole, roomParty, 1);
 	entities.push_back(exitHoleW);
 	entities.push_back(exitHoleE);
 	entities.push_back(exitHoleS);
@@ -49,19 +49,19 @@ World::World()
 	roomHole->addContains(exitHoleS);
 
 	// Tulgey Wood exits and items
-	Exit* exitWoodE = new Exit("East Exit", "A small brown door.", ExitDirection::EAST, roomWood, roomHole);
-	Item* itemTree = new Item("Tumtum Tree", "A clock sits on one of the high branches.");
+	Exit* exitWoodE = new Exit("East Exit", "A small brown door.", ExitDirection::EAST, roomWood, roomHole, 1);
+	Item* itemTree = new Item("TREE", "A very tall Tumtum tree.");
 	Item* itemClock = new Item("CLOCK", "This appears to be missing some pieces.");
 	entities.push_back(exitWoodE);
 	entities.push_back(itemTree);
 	entities.push_back(itemClock);
 	roomWood->addContains(exitWoodE);
 	roomWood->addContains(itemTree);
-	roomWood->addContains(itemClock);
+	itemTree->addContains(itemClock);
 
 	// White Rabbit's House exits and items
-	Exit* exitHouseW = new Exit("West Exit", "An open tunnel.", ExitDirection::WEST, roomHouse, roomHole);
-	Exit* exitHouseS = new Exit("South Exit", "An open pathway.", ExitDirection::SOUTH, roomHouse, roomGarden);
+	Exit* exitHouseW = new Exit("West Exit", "An open tunnel.", ExitDirection::WEST, roomHouse, roomHole, 0);
+	Exit* exitHouseS = new Exit("South Exit", "An open pathway.", ExitDirection::SOUTH, roomHouse, roomGarden, 0);
 	Item* itemPotion = new Item("POTION", "The bottle is labelled 'Drink Me'.");
 	entities.push_back(exitHouseW);
 	entities.push_back(exitHouseS);
@@ -71,8 +71,8 @@ World::World()
 	roomHouse->addContains(itemPotion);
 
 	// Tea Party exits and items
-	Exit* exitPartyN = new Exit("North Exit", "A small purple door.", ExitDirection::NORTH, roomParty, roomHole);
-	Exit* exitPartyE = new Exit("East Exit", "An open gate.", ExitDirection::EAST, roomParty, roomGarden);
+	Exit* exitPartyN = new Exit("North Exit", "A small purple door.", ExitDirection::NORTH, roomParty, roomHole, 1);
+	Exit* exitPartyE = new Exit("East Exit", "An open gate.", ExitDirection::EAST, roomParty, roomGarden, 0);
 	Item* itemCake = new Item("CAKE", "The box is labelled 'Eat Me'.");
 	entities.push_back(exitPartyN);
 	entities.push_back(exitPartyE);
@@ -82,9 +82,9 @@ World::World()
 	roomParty->addContains(itemCake);
 
 	// Queen's Garden exits and items
-	Exit* exitGardenN = new Exit("North Exit", "An open pathway.", ExitDirection::NORTH, roomGarden, roomHouse);
-	Exit* exitGardenW = new Exit("West Exit", "An open gate.", ExitDirection::WEST, roomGarden, roomParty);
-	Item* itemToolshed = new Item("Toolshed", "descr");
+	Exit* exitGardenN = new Exit("North Exit", "An open pathway.", ExitDirection::NORTH, roomGarden, roomHouse, 0);
+	Exit* exitGardenW = new Exit("West Exit", "An open gate.", ExitDirection::WEST, roomGarden, roomParty, 0);
+	Item* itemToolshed = new Item("TOOLSHED", "descr");
 	Item* itemGears = new Item("GEARS", "This looks like the missing clock pieces!");
 	entities.push_back(exitGardenN);
 	entities.push_back(exitGardenW);
@@ -93,7 +93,7 @@ World::World()
 	roomGarden->addContains(exitGardenN);
 	roomGarden->addContains(exitGardenW);
 	roomGarden->addContains(itemToolshed);
-	roomGarden->addContains(itemGears);
+	itemToolshed->addContains(itemGears);
 }
 
 // Destructor
@@ -138,8 +138,12 @@ void World::ParseCommand(string &command)
 
 		if (!c.empty())
 		{
+			cout << "---\n";
 			if (c[0] == "LOOK") {
-				isValid = alice->Look(c);
+				isValid = alice->Look();
+			}
+			else if (c[0] == "CHECK") {
+				isValid = alice->Check();
 			}
 			else if (c[0] == "GO") {
 				isValid = alice->Go(c);
@@ -147,8 +151,11 @@ void World::ParseCommand(string &command)
 			else if (c[0] == "ASK") {
 				isValid = alice->Ask(c);
 			}
-			else if (c[0] == "TAKE") {
-				isValid = alice->Take(c);
+			else if (c[0] == "EXAMINE") {
+				isValid = alice->Examine(c);
+			}
+			else if (c[0] == "GET") {
+				isValid = alice->Get(c);
 			}
 			else if (c[0] == "DROP") {
 				isValid = alice->Drop(c);
@@ -171,6 +178,7 @@ void World::ParseCommand(string &command)
 			{
 				cout << "I cannot perform that command.\n";
 			}
+			cout << "=====\n";
 		}
 	}
 }

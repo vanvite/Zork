@@ -4,25 +4,29 @@
 
 #include "Creature.h"
 #include <vector>
+class Item;
 
-enum class Size {
+enum class PlayerSize {
 	SMALL, NORMAL, LARGE
 };
 
 class Player : public Creature
 {
 private:
-	Size status;
+	PlayerSize status;
 	bool gameWon;
 public:
 	Player(string n, string d, Room* loc);
 	~Player();
 	string getstrStatus() const;
 	bool getGameWon() const;
-	bool Look(vector<string> action);
+	Item* findItem(string name);
+	bool Look();
+	bool Check();
 	bool Go(vector<string> action);
 	bool Ask(vector<string> action);
-	bool Take(vector<string> action);
+	bool Examine(vector<string> action);
+	bool Get(vector<string> action);
 	bool Drop(vector<string> action);
 	bool Use(vector<string> action);
 	bool PutIn(vector<string> action);

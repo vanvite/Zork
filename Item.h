@@ -1,5 +1,4 @@
-// C++ Test - Simple Zork Game Assignment
-// by Van Wreena Xiel Vite
+// myZork game created by Van Vite
 #ifndef ITEM_H
 #define ITEM_H
 
@@ -11,6 +10,7 @@ private:
 public:
 	Item(string n, string d);
 	~Item();
+	Item* findItem(string name);
 };
 
 #endif // ITEM_H

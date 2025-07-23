@@ -1,13 +1,13 @@
-// C++ Test - Simple Zork Game Assignment
-// by Van Wreena Xiel Vite
+// myZork game created by Van Vite
 #include "Exit.h"
 
 // Constructor
-Exit::Exit(string n, string d, ExitDirection dir, Room* src, Room* des)
+Exit::Exit(string n, string d, ExitDirection dir, Room* src, Room* des, bool small)
 	: Entity(EntityType::EXIT, n, d),
 	direction(dir),
 	source(src),
-	destination(des)
+	destination(des),
+	smallExit(small)
 {
 	// Initializer list used
 }
@@ -19,38 +19,44 @@ Exit::~Exit()
 	delete destination;
 }
 
-// Returns the ExitDirection
-ExitDirection Exit::getDirection() const
+string Exit::getstrDirection() const
 {
+	switch (direction)
+	{
+	case ExitDirection::NORTH:
+		return "NORTH";
+	case ExitDirection::EAST:
+		return "EAST";
+	case ExitDirection::SOUTH:
+		return "SOUTH";
+	case ExitDirection::WEST:
+		return "WEST";
+	default:
+		return "unknown";
+	}
+}
+
+// Getters
+ExitDirection Exit::getDirection() const{
 	return direction;
 }
-
-// Returns the source room
-Room* Exit::getSource() const
-{
+Room* Exit::getSource() const{
 	return source;
 }
-
-// Returns the destination room
-Room* Exit::getDestination() const
-{
+Room* Exit::getDestination() const{
 	return destination;
 }
+bool Exit::isSmall() const{
+	return smallExit;
+}
 
-// Sets the ExitDirection
-void Exit::setDirection(ExitDirection dir)
-{
+// Setters
+void Exit::setDirection(ExitDirection dir){
 	direction = dir;
 }
-
-// Sets the source room
-void Exit::setSource(Room* src)
-{
+void Exit::setSource(Room* src){
 	source = src;
 }
-
-// Sets the destination room
-void Exit::setDestination(Room* des)
-{
+void Exit::setDestination(Room* des){
 	destination = des;
 }
