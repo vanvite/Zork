@@ -2,14 +2,14 @@
 #ifndef WORLD_H
 #define WORLD_H
 
-#include <vector>
+#include <list>
 #include "Entity.h"
 class Player;
 
 class World
 {
 private:
-	vector<Entity*> entities;
+	list<Entity*> entities;
 	Player* alice;
 public:
 	World();

@@ -16,7 +16,7 @@ World::World()
 	Room* roomWood = new Room("Tulgey Wood", "");
 	Room* roomHouse = new Room("White Rabbit's House", "");
 	Room* roomParty = new Room("Tea Party", "");
-	Room* roomGarden = new Room("Queen's Garden", "");
+	Room* roomGarden = new Room("Queen's Garden", "A beautiful garden filled with red rose bushes.");
 	entities.push_back(roomHole);
 	entities.push_back(roomWood);
 	entities.push_back(roomHouse);
@@ -24,66 +24,84 @@ World::World()
 	entities.push_back(roomGarden);
 
 	// Creatures
-	alice = new Player("ALICE", "", roomHole);
+	alice = new Player("ALICE", " is normal in size.", roomHole);
 	entities.push_back(alice);
 
 	string dHatter = "";
 	NPC* npcHatter = new NPC("HATTER", "", roomParty, dHatter);
 	entities.push_back(npcHatter);
+	roomParty->addContains(npcHatter);
 
 	string dCat = "";
-	NPC* npcCat = new NPC("CAT", "", roomWood, dCat);
+	NPC* npcCat = new NPC("CAT", "", roomHole, dCat);
 	entities.push_back(npcCat);
+	roomHole->addContains(npcCat);
 
 	// Rabbit Hole exits and items
-	Exit* exitHoleW = new Exit("West Exit", "A small brown door", ExitDirection::WEST, roomHole, roomWood);
-	Exit* exitHoleE = new Exit("East Exit", "An open tunnel", ExitDirection::EAST, roomHole, roomHouse);
-	Exit* exitHoleS = new Exit("South Exit", "A small purple door", ExitDirection::SOUTH, roomHole, roomParty);
+	Exit* exitHoleW = new Exit("West Exit", "A small brown door.", ExitDirection::WEST, roomHole, roomWood);
+	Exit* exitHoleE = new Exit("East Exit", "An open tunnel.", ExitDirection::EAST, roomHole, roomHouse);
+	Exit* exitHoleS = new Exit("South Exit", "A small purple door.", ExitDirection::SOUTH, roomHole, roomParty);
 	entities.push_back(exitHoleW);
 	entities.push_back(exitHoleE);
 	entities.push_back(exitHoleS);
+	roomHole->addContains(exitHoleW);
+	roomHole->addContains(exitHoleE);
+	roomHole->addContains(exitHoleS);
 
 	// Tulgey Wood exits and items
-	Exit* exitWoodE = new Exit("East Exit", "A small brown door", ExitDirection::EAST, roomWood, roomHole);
-	Item* itemTree = new Item("Tumtum Tree", "descr");
-	Item* itemClock = new Item("CLOCK", "descr");
+	Exit* exitWoodE = new Exit("East Exit", "A small brown door.", ExitDirection::EAST, roomWood, roomHole);
+	Item* itemTree = new Item("Tumtum Tree", "A clock sits on one of the high branches.");
+	Item* itemClock = new Item("CLOCK", "This appears to be missing some pieces.");
 	entities.push_back(exitWoodE);
 	entities.push_back(itemTree);
 	entities.push_back(itemClock);
+	roomWood->addContains(exitWoodE);
+	roomWood->addContains(itemTree);
+	roomWood->addContains(itemClock);
 
 	// White Rabbit's House exits and items
-	Exit* exitHouseW = new Exit("West Exit", "An open tunnel", ExitDirection::WEST, roomHouse, roomHole);
-	Exit* exitHouseS = new Exit("South Exit", "An open pathway", ExitDirection::SOUTH, roomHouse, roomGarden);
-	Item* itemPotion = new Item("POTION", "descr");
+	Exit* exitHouseW = new Exit("West Exit", "An open tunnel.", ExitDirection::WEST, roomHouse, roomHole);
+	Exit* exitHouseS = new Exit("South Exit", "An open pathway.", ExitDirection::SOUTH, roomHouse, roomGarden);
+	Item* itemPotion = new Item("POTION", "The bottle is labelled 'Drink Me'.");
 	entities.push_back(exitHouseW);
 	entities.push_back(exitHouseS);
 	entities.push_back(itemPotion);
+	roomHouse->addContains(exitHouseW);
+	roomHouse->addContains(exitHouseS);
+	roomHouse->addContains(itemPotion);
 
 	// Tea Party exits and items
-	Exit* exitPartyN = new Exit("North Exit", "A small purple door", ExitDirection::NORTH, roomParty, roomHole);
-	Exit* exitPartyE = new Exit("East Exit", "An open gate", ExitDirection::EAST, roomParty, roomGarden);
-	Item* itemCake = new Item("CAKE", "descr");
+	Exit* exitPartyN = new Exit("North Exit", "A small purple door.", ExitDirection::NORTH, roomParty, roomHole);
+	Exit* exitPartyE = new Exit("East Exit", "An open gate.", ExitDirection::EAST, roomParty, roomGarden);
+	Item* itemCake = new Item("CAKE", "The box is labelled 'Eat Me'.");
 	entities.push_back(exitPartyN);
 	entities.push_back(exitPartyE);
 	entities.push_back(itemCake);
+	roomParty->addContains(exitPartyN);
+	roomParty->addContains(exitPartyE);
+	roomParty->addContains(itemCake);
 
 	// Queen's Garden exits and items
-	Exit* exitGardenN = new Exit("North Exit", "An open pathway", ExitDirection::NORTH, roomGarden, roomHouse);
-	Exit* exitGardenW = new Exit("West Exit", "An open gate", ExitDirection::WEST, roomGarden, roomParty);
+	Exit* exitGardenN = new Exit("North Exit", "An open pathway.", ExitDirection::NORTH, roomGarden, roomHouse);
+	Exit* exitGardenW = new Exit("West Exit", "An open gate.", ExitDirection::WEST, roomGarden, roomParty);
 	Item* itemToolshed = new Item("Toolshed", "descr");
-	Item* itemGears = new Item("GEARS", "descr");
+	Item* itemGears = new Item("GEARS", "This looks like the missing clock pieces!");
 	entities.push_back(exitGardenN);
 	entities.push_back(exitGardenW);
 	entities.push_back(itemToolshed);
 	entities.push_back(itemGears);
+	roomGarden->addContains(exitGardenN);
+	roomGarden->addContains(exitGardenW);
+	roomGarden->addContains(itemToolshed);
+	roomGarden->addContains(itemGears);
 }
 
 // Destructor
 World::~World()
 {
-	for (int i = 0; i < entities.size(); i++)
+	for (Entity* e : entities)
 	{
-		delete entities[i];
+		delete e;
 	}
 }
 
@@ -113,7 +131,7 @@ vector<string> World::SplitString(string c, string delimiter)
 // Executes a command as a Player action
 void World::ParseCommand(string &command)
 {
-	if (!command.empty())
+	if (!command.empty() && command != "QUIT GAME")
 	{
 		vector<string> c = SplitString(command, " ");
 		bool isValid = 0;
