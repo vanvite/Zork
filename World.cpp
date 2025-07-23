@@ -138,7 +138,7 @@ void World::ParseCommand(string &command)
 
 		if (!c.empty())
 		{
-			cout << "---\n";
+			cout << "-----\n";
 			if (c[0] == "LOOK") {
 				isValid = alice->Look();
 			}
@@ -160,7 +160,7 @@ void World::ParseCommand(string &command)
 			else if (c[0] == "DROP") {
 				isValid = alice->Drop(c);
 			}
-			else if (c[0] == "USE") {
+			else if (c[0] == "USE" || c[0] == "DRINK" || c[0] == "EAT") {
 				isValid = alice->Use(c);
 			}
 			else if (c[0] == "PUT") {
@@ -176,9 +176,9 @@ void World::ParseCommand(string &command)
 
 			if (!isValid)
 			{
-				cout << "I cannot perform that command.\n";
+				cout << "I cannot do that command.\n";
 			}
-			cout << "=====\n";
+			cout << "==========\n";
 		}
 	}
 }

@@ -59,7 +59,7 @@ Item* Player::findItem(string name)
 // Displays the Room description and contents
 bool Player::Look()
 {
-	cout	<< "Alice is in the " << getLocation()->getstrEntity()
+	cout	<< "Alice is at the " << getLocation()->getstrEntity()
 			<< "This room contains:\n"
 			<< getLocation()->getstrContains();
 	return 1;
@@ -140,12 +140,26 @@ bool Player::Examine(vector<string> action)
 	if (action.size() > 1)
 	{
 		if (action[1] == "POTION" || action[1] == "CAKE" || action[1] == "GEARS"
-			|| action[1] == "TREE" || action[1] == "TOOLSHED")
+			|| action[1] == "TREE" || action[1] == "TOOLSHED" || action[1] == "CLOCK")
 		{
 			Item* myItem = getLocation()->findItem(action[1]);
-			if (myItem != NULL)
+			Item* myInventoryItem = findItem(action[1]);
+
+			if (myItem != NULL) // Checks if Item is in the room
 			{
-				cout << getLocation()->getstrEntity();
+				cout << myItem->getstrEntity();
+				if (myItem->getName() == "TREE" || myItem->getName() == "TOOLSHED")
+				{
+					if (!myItem->getContains().empty())
+					{
+						cout << "contains:\n" << myItem->getstrContains();
+					}
+				}
+				return 1;
+			}
+			else if (myInventoryItem != NULL) // Checks if Item is in Player inventory
+			{
+				cout << myInventoryItem->getstrEntity();
 				return 1;
 			}
 			else {
@@ -168,50 +182,34 @@ bool Player::Get(vector<string> action)
 			// If Player is in the Queen's Garden
 			if (getLocation()->getName() == "Queen's Garden")
 			{
-				// Checks if Item is in the toolshed
 				Item* myToolshed = getLocation()->findItem("TOOLSHED");
 				Item* toolshedItem = myToolshed->findItem(action[1]);
-				if (toolshedItem != NULL)
+
+				if (toolshedItem != NULL) // Checks if Item is in the toolshed
 				{
 					myToolshed->removeContains(toolshedItem); // Removes Item from the toolshed
 					addContains(toolshedItem); // Adds Item to Player inventory
 					cout << action[1] << " is now in Alice's inventory.\n";
 					return 1;
 				}
-				// If Item is not in toolshed, checks if Item is in the room
-				else
-				{
-					Item* myItem = getLocation()->findItem(action[1]);
-					if (myItem != NULL)
-					{
-						getLocation()->removeContains(myItem); // Removes Item from the Room
-						addContains(myItem); // Adds Item to Player inventory
-						cout << action[1] << " is now in Alice's inventory.\n";
-						return 1;
-					}
-					else {
-						cout << action[1] << " is not here. ";
-						return 0;
-					}
-				}
-			}
-			// If Player is in any other room
-			else
-			{
-				Item* myItem = getLocation()->findItem(action[1]);
-				if (myItem != NULL)
-				{
-					getLocation()->removeContains(myItem); // Removes Item from the Room
-					addContains(myItem); // Adds Item to Player inventory
-					cout << action[1] << " is now in Alice's inventory.\n";
-					return 1;
-				}
 				else {
-					cout << action[1] << " is not in this room. ";
-					return 0;
+					// If not in toolshed, continue with the function below
 				}
 			}
 
+			// Checks if Item is in the room
+			Item* myItem = getLocation()->findItem(action[1]);
+			if (myItem != NULL)
+			{
+				getLocation()->removeContains(myItem); // Removes Item from the Room
+				addContains(myItem); // Adds Item to Player inventory
+				cout << action[1] << " is now in Alice's inventory.\n";
+				return 1;
+			}
+			else {
+				cout << action[1] << " is not here. ";
+				return 0;
+			}
 		}
 		else { return 0; }
 	}
@@ -249,7 +247,8 @@ bool Player::Use(vector<string> action)
 {
 	if (action.size() > 1)
 	{
-		if (action[1] == "POTION") // Drink potion to shrink
+		if ((action[0] == "DRINK" || action[0] == "USE")
+			&& action[1] == "POTION") // Drink potion to shrink
 		{
 			switch (status)
 			{
@@ -266,7 +265,8 @@ bool Player::Use(vector<string> action)
 				break;
 			}
 		}
-		else if (action[1] == "CAKE") // Eat cake to grow
+		else if ((action[0] == "EAT" || action[0] == "USE")
+			&& (action[1] == "CAKE")) // Eat cake to grow
 		{
 			switch (status)
 			{
@@ -306,7 +306,7 @@ bool Player::PutIn(vector<string> action)
 					{
 						Item* myItem = findItem(action[1]);
 						Item* myToolshed = getLocation()->findItem("TOOLSHED");
-						if (myItem != NULL)
+						if (myItem != NULL) // Checks if Player has the Item
 						{
 							removeContains(myItem); // Removes Item from Player inventory
 							myToolshed->addContains(myItem); // Adds Item to the toolshed
