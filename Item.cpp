@@ -11,9 +11,10 @@ Item::Item(string n, string d)
 // Destructor
 Item::~Item()
 {
-	//
+	// No new pointers in derived class
 }
 
+// Checks if Item has a certain Item
 Item* Item::findItem(string name)
 {
 	for (int i = 0; i < getContains().size(); i++)

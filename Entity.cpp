@@ -1,7 +1,7 @@
 // myZork game created by Van Vite
 #include "Entity.h"
 
-// Default Constructor
+// Constructor
 Entity::Entity(string n, string d)
 	: type(EntityType::ENTITY), name(n), description(d)
 {
@@ -62,7 +62,7 @@ string Entity::getstrEntity() const
 	return s;
 }
 
-// Checks whether or not the Entity contains a certain Entity
+// Checks if the Entity contains a certain Entity
 bool Entity::hasEntity(Entity* e)
 {
 	bool has = 0;

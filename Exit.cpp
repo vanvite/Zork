@@ -1,5 +1,6 @@
 // myZork game created by Van Vite
 #include "Exit.h"
+#include "Room.h"
 
 // Constructor
 Exit::Exit(string n, string d, ExitDirection dir, Room* src, Room* des, bool small)
@@ -19,6 +20,7 @@ Exit::~Exit()
 	delete destination;
 }
 
+// Returns string of Exit direction
 string Exit::getstrDirection() const
 {
 	switch (direction)

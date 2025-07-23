@@ -1,8 +1,8 @@
-// C++ Test - Simple Zork Game Assignment
-// by Van Wreena Xiel Vite
+// myZork game created by Van Vite
 #include "Creature.h"
+#include "Room.h"
 
-// Default Constructor
+// Constructor
 Creature::Creature(string n, string d, Room* loc)
 	: Entity(EntityType::CREATURE, n, d),
 	location(loc)
@@ -10,7 +10,7 @@ Creature::Creature(string n, string d, Room* loc)
 	// Initializer list used
 }
 
-// Constructor with type of Creature Entity
+// Constructor with type of Entity
 Creature::Creature(EntityType t, string n, string d, Room* loc)
 	: Entity(t, n, d),
 	location(loc)
@@ -25,13 +25,11 @@ Creature::~Creature()
 }
 
 // Returns the Creature's location
-Room* Creature::getLocation() const
-{
+Room* Creature::getLocation() const{
 	return location;
 }
 
 // Sets the Creature's location
-void Creature::setLocation(Room* r)
-{
+void Creature::setLocation(Room* r){
 	location = r;
 }

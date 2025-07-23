@@ -1,6 +1,5 @@
 // myZork game created by Van Vite
 #include "NPC.h"
-#include <iostream>
 
 // Constructor
 NPC::NPC(string n, string d, Room* loc, string dg)
@@ -13,14 +12,15 @@ NPC::NPC(string n, string d, Room* loc, string dg)
 // Destructor
 NPC::~NPC()
 {
-	//
+	// No new pointers in derived class
 }
 
-string NPC::GetDialog() const
-{
+// Getters
+string NPC::GetDialog() const{
 	return strDialog;
 }
 
+// Displays the NPC name and dialog
 void NPC::Speak()
 {
 	cout << getName() << ": " << GetDialog() << endl;

@@ -22,6 +22,8 @@ public:
 	Entity(string n, string d);
 	Entity(EntityType t, string n, string d);
 	~Entity();
+
+	// Getters and Setters
 	EntityType getType() const;
 	string getName() const;
 	string getDescription() const;
@@ -30,6 +32,8 @@ public:
 	void setName(string n);
 	void setDescription(string d);
 	void setContains(vector<Entity*> c);
+
+	// Other Methods
 	virtual void Update();
 	string getstrEntity() const;
 	bool hasEntity(Entity* e);

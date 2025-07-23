@@ -1,7 +1,8 @@
 // myZork game created by Van Vite
 #include "Player.h"
-#include "Exit.h"
 #include "NPC.h"
+#include "Room.h"
+#include "Exit.h"
 #include "Item.h"
 
 // Constructor
@@ -19,6 +20,7 @@ Player::~Player()
 	// No new pointers in derived class
 }
 
+// Returns string of Player size status
 string Player::getstrStatus() const
 {
 	switch (status)
@@ -34,11 +36,12 @@ string Player::getstrStatus() const
 	}
 }
 
-bool Player::getGameWon() const
-{
+// Retuerns whether or not the Player has won the game
+bool Player::getGameWon() const{
 	return gameWon;
 }
 
+// Finds a certain Item in Player inventory
 Item* Player::findItem(string name)
 {
 	for (int i = 0; i < getContains().size(); i++)
@@ -112,14 +115,14 @@ bool Player::Go(vector<string> action)
 	else { return 0; }
 }
 
-// Talks to an NPC
+// Displays helpful information from an NPC
 bool Player::Ask(vector<string> action)
 {
 	if (action.size() > 1) {
 		if (action[1] == "CAT" || action[1] == "HATTER")
 		{
 			NPC* myNPC = getLocation()->findNPC(action[1]);
-			if (myNPC != NULL)
+			if (myNPC != NULL) // Checks if NPC is in the room
 			{
 				myNPC->Speak();
 				return 1;
@@ -291,14 +294,14 @@ bool Player::Use(vector<string> action)
 	else { return 0; }
 }
 
-// Puts one item into another
+// Puts an Item into a container Item
 bool Player::PutIn(vector<string> action)
 {
 	if (action.size() > 3)
 	{
-		if (action[2] == "IN") // Checks for PUT...IN
+		if (action[2] == "IN") // Checks for "PUT...IN"
 		{
-			if (action[3] == "TOOLSHED") // Checks for PUT Item IN TOOLSHED
+			if (action[3] == "TOOLSHED") // Checks for "PUT Item IN TOOLSHED"
 			{
 				if (action[1] == "POTION" || action[1] == "CAKE" || action[1] == "GEARS")
 				{
@@ -324,14 +327,14 @@ bool Player::PutIn(vector<string> action)
 				}
 				else { return 0; }
 			}
-			else if ((action[1] == "GEARS") && (action[3] == "CLOCK")) // Checks for PUT GEARS IN CLOCK
+			else if ((action[1] == "GEARS") && (action[3] == "CLOCK")) // Checks for "PUT GEARS IN CLOCK"
 			{
 				if (getLocation()->getName() == "Tulgey Wood") // Checks if Player is in correct room
 				{
 					Item* myItem = findItem(action[1]);
 					if (myItem != NULL) // Checks if Player has GEARS
 					{
-						if (status == PlayerSize::LARGE) // Checks if Player is large
+						if (status == PlayerSize::LARGE) // Checks if Player can reach the clock
 						{
 							gameWon = 1; // Player wins the game
 							return 1;

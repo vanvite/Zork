@@ -17,6 +17,7 @@ Room::~Room()
 	// No new pointers in derived class
 }
 
+// Finds a certain Exit in the Room
 Exit* Room::findExit(string direction)
 {	
 	for (int i = 0; i < getContains().size(); i++)
@@ -34,6 +35,7 @@ Exit* Room::findExit(string direction)
 	return NULL; // If Exit not found
 }
 
+// Finds a certain NPC in the Room
 NPC* Room::findNPC(string name)
 {
 	for (int i = 0; i < getContains().size(); i++)
@@ -51,6 +53,7 @@ NPC* Room::findNPC(string name)
 	return NULL; // If NPC not found
 }
 
+// Finds a certain Item in the Room
 Item* Room::findItem(string name)
 {
 	for (int i = 0; i < getContains().size(); i++)

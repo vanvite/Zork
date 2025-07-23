@@ -3,7 +3,6 @@
 #define PLAYER_H
 
 #include "Creature.h"
-#include <vector>
 class Item;
 
 enum class PlayerSize {
@@ -21,6 +20,8 @@ public:
 	string getstrStatus() const;
 	bool getGameWon() const;
 	Item* findItem(string name);
+
+	// Actions
 	bool Look();
 	bool Check();
 	bool Go(vector<string> action);

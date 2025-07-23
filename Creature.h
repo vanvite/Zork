@@ -1,10 +1,9 @@
-// C++ Test - Simple Zork Game Assignment
-// by Van Wreena Xiel Vite
+// myZork game created by Van Vite
 #ifndef CREATURE_H
 #define CREATURE_H
 
 #include "Entity.h"
-#include "Room.h"
+class Room;
 
 class Creature : public Entity
 {

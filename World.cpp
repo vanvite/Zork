@@ -128,7 +128,7 @@ vector<string> World::SplitString(string c, string delimiter)
 	return s;
 }
 
-// Executes a command as a Player action
+// Executes a text command as a Player action
 void World::ParseCommand(string &command)
 {
 	if (!command.empty() && command != "QUIT GAME")
@@ -139,6 +139,7 @@ void World::ParseCommand(string &command)
 		if (!c.empty())
 		{
 			cout << "-----\n";
+
 			if (c[0] == "LOOK") {
 				isValid = alice->Look();
 			}
@@ -174,15 +175,16 @@ void World::ParseCommand(string &command)
 				isValid = 0;
 			}
 
-			if (!isValid)
-			{
+			if (!isValid) {
 				cout << "I cannot do that command.\n";
 			}
+
 			cout << "==========\n";
 		}
 	}
 }
 
+// Displays the victory message
 void World::ShowWin()
 {
 	cout << "The alarm clock rings... Alice wakes up and escapes Wonderland!\n";
