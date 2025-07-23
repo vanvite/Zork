@@ -13,7 +13,7 @@ Player::Player(string n, string d, Room* loc)
 // Destructor
 Player::~Player()
 {
-	//
+	// No new pointers in derived class
 }
 
 string Player::getstrStatus() const
@@ -42,138 +42,142 @@ bool Player::getGameWon() const
 // Prints description of current room and Player status
 bool Player::Look(vector<string> action)
 {
+	// getstr
 	return 1;
 }
 
 // Moves to the adjacent room
 bool Player::Go(vector<string> action)
 {
-	if (action[1] == "NORTH" || action[1] == "EAST"
-		|| action[1] == "SOUTH" || action[1] == "WEST")
-	{
-		return 1;
+	if (action.size() > 1) {
+		if (action[1] == "NORTH" || action[1] == "EAST"
+			|| action[1] == "SOUTH" || action[1] == "WEST")
+		{
+			// move
+			return 1;
+		}
+		else { return 0; }
 	}
-	else {
-		return 0;
-	}
+	else { return 0; }
 }
 
 // Talks to an NPC
 bool Player::Ask(vector<string> action)
 {
-	if (action[1] == "CAT" || action[1] == "HATTER")
-	{
-		return 1;
+	if (action.size() > 1) {
+		if (action[1] == "CAT" || action[1] == "HATTER")
+		{
+			// Display dialog
+			return 1;
+		}
+		else { return 0; }
 	}
-	else {
-		return 0;
-	}
+	else { return 0; }
 }
 
 // Picks up an item
 bool Player::Take(vector<string> action)
 {
-	if (action[1] == "POTION" || action[1] == "CAKE" || action[1] == "CLOCK BELLS")
+	if (action.size() > 1)
 	{
-		return 1;
+		if (action[1] == "POTION" || action[1] == "CAKE" || action[1] == "GEARS")
+		{
+			// pick up
+			return 1;
+		}
+		else { return 0; }
 	}
-	else{
-		return 0;
-	}
+	else { return 0; }
 }
 
 // Puts an item down
 bool Player::Drop(vector<string> action)
 {
-	if (action[1] == "POTION" || action[1] == "CAKE" || action[1] == "CLOCK BELLS")
+	if (action.size() > 1)
 	{
-		return 1;
+		if (action[1] == "POTION" || action[1] == "CAKE" || action[1] == "GEARS")
+		{
+			// put down
+			return 1;
+		}
+		else { return 0; }
 	}
-	else {
-		return 0;
-	}
+	else { return 0; }
 }
 
-// Uses an item (e.g. eat cake, drink potion)
+// Uses an item
 bool Player::Use(vector<string> action)
 {
-	if (action[1] == "POTION") // Shrink
+	if (action.size() > 1)
 	{
-		switch (status)
+		if (action[1] == "POTION") // Drink potion to shrink
 		{
-		case Size::SMALL:
-			cout << "Alice is small and cannot shrink any further.\n";
-			break;
-		case Size::NORMAL:
-			status = Size::SMALL;
-			break;
-		case Size::LARGE:
-			status = Size::NORMAL;
-			break;
+			switch (status)
+			{
+			case Size::SMALL:
+				cout << "Alice is small and cannot shrink any further.\n";
+				break;
+			case Size::NORMAL:
+				status = Size::SMALL;
+				break;
+			case Size::LARGE:
+				status = Size::NORMAL;
+				break;
+			}
 		}
-	}
-	else if (action[1] == "CAKE") // Grow
-	{
-		switch (status)
+		else if (action[1] == "CAKE") // Eat cake to grow
 		{
-		case Size::SMALL:
-			status = Size::NORMAL;
-			break;
-		case Size::NORMAL:
-			status = Size::LARGE;
-			break;
-		case Size::LARGE:
-			cout << "Alice is large and cannot grow any further.\n";
-			break;
+			switch (status)
+			{
+			case Size::SMALL:
+				status = Size::NORMAL;
+				break;
+			case Size::NORMAL:
+				status = Size::LARGE;
+				break;
+			case Size::LARGE:
+				cout << "Alice is large and cannot grow any further.\n";
+				break;
+			}
 		}
+		else { return 0; }
+
+		return 1;
 	}
-	else if (action[1] == "CLOCK BELLS") // Wake up
-	{
-		//
-	}
-	else
-	{
-		return 0;
-	}
-	return 1;
+	else { return 0; }
 }
 
 // Puts one item into another
 bool Player::PutIn(vector<string> action)
 {
-	if (action[1] == "POTION" || action[1] == "CAKE")
+	if (action.size() > 3)
 	{
-		if (action[2] == "IN") {
-			if (action[3] == "TOOLSHED")
-			{
-				return 1;
-			}
-			else {
-				return 0;
-			}
-		}
-		else {
-			return 0;
-		}
-	}
-	else if (action[1] == "CLOCK BELLS")
-	{
-		if (action[2] == "IN")
+		if (action[3] == "TOOLSHED")
 		{
-			if (action[3] == "ALARM CLOCK") // Player wins
+			if (action[2] == "IN") {
+				if (action[1] == "POTION" || action[1] == "CAKE" || action[1] == "GEARS")
+				{
+					// put in
+					return 1;
+				}
+				else { return 0; }
+			}
+			else { return 0; }
+		}
+		else if (action[3] == "CLOCK")
+		{
+			if (action[2] == "IN")
 			{
-				gameWon = 1;
-				return 1;
+				if (action[1] == "GEARS") // Player wins
+				{
+					gameWon = 1;
+					return 1;
+				}
+				else { return 0; }
 			}
-			else {
-				return 0;
-			}
+			else { return 0; }
 		}
-		else {
-			return 0;
-		}
+		else { return 0; }
 	}
-	else{
-		return 0;
-	}
+	else { return 0; }
 }

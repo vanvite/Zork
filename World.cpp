@@ -87,21 +87,31 @@ World::~World()
 	}
 }
 
+// Splits a string into a vector of substrings
 vector<string> World::SplitString(string c, string delimiter)
 {
 	vector<string> s;
-	size_t start = 0; cout << "start: " << start << endl;
-	size_t end = c.find(delimiter); cout << "end: " << end << endl;
-	while (end != string::npos)
-	{
-		s.push_back(c.substr(start, end-start));
-		start = end + delimiter.length();
-		end = c.find(delimiter, start);
+	size_t start = 0;
+	size_t end = c.find(delimiter);
+
+	if (start == string::npos) { // If 1 word only
+		s.push_back(c);
 	}
+	else {
+		while (end != string::npos) // If multiple words
+		{
+			s.push_back(c.substr(start, end-start));
+			start = end + delimiter.length();
+			end = c.find(delimiter, start);
+		}
+		s.push_back(c.substr(start, end - start));
+	}
+
 	return s;
 }
 
-void World::ParseCommand(string& command)
+// Executes a command as a Player action
+void World::ParseCommand(string &command)
 {
 	if (!command.empty())
 	{

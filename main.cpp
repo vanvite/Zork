@@ -15,9 +15,9 @@ int main()
 	string myCommand = "";
 	while (myCommand != "QUIT GAME")
 	{
-		myWorld.ParseCommand(myCommand);
 		getline(cin >> ws, myCommand);
 		transform(myCommand.begin(), myCommand.end(), myCommand.begin(), ::toupper);
+		myWorld.ParseCommand(myCommand);
 	}
 	return 0;
 }

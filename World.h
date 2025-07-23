@@ -15,7 +15,7 @@ public:
 	World();
 	~World();
 	vector<string> SplitString(string c, string delimiter);
-	void ParseCommand(string& command);
+	void ParseCommand(string &command);
 	void ShowWin();
 };
 
