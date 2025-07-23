@@ -1,5 +1,4 @@
-// C++ Test - Simple Zork Game Assignment
-// by Van Wreena Xiel Vite
+// myZork game created by Van Vite
 #include "Entity.h"
 
 // Default Constructor
@@ -22,51 +21,31 @@ Entity::~Entity()
 	contains.clear();
 }
 
-// Returns the EntityType
-EntityType Entity::getType() const
-{
+// Getters
+EntityType Entity::getType() const{
 	return type;
 }
-
-// Returns the Entity's name
-string Entity::getName() const
-{
+string Entity::getName() const{
 	return name;
 }
-
-// Returns the Entity's description
-string Entity::getDescription() const
-{
+string Entity::getDescription() const{
 	return description;
 }
-
-// Returns the list contained by the Entity
-list<Entity*> Entity::getContains() const
-{
+vector<Entity*> Entity::getContains() const{
 	return contains;
 }
 
-// Sets the EntityType
-void Entity::setType(EntityType t)
-{
+// Setters
+void Entity::setType(EntityType t){
 	type = t;
 }
-
-// Sets the Entity's name
-void Entity::setName(string n)
-{
+void Entity::setName(string n){
 	name = n;
 }
-
-// Sets the Entity's description
-void Entity::setDescription(string d)
-{
+void Entity::setDescription(string d){
 	description = d;
 }
-
-// Sets the list contained by the Entity
-void Entity::setContains(list<Entity*> c)
-{
+void Entity::setContains(vector<Entity*> c){
 	contains = c;
 }
 
@@ -74,4 +53,58 @@ void Entity::setContains(list<Entity*> c)
 void Entity::Update()
 {
 	//
+}
+
+// Returns string of Entity name and description
+string Entity::getstrEntity() const
+{
+	string s = "";
+	s = name + " - " + description + "\n";
+	return s;
+}
+
+// Checks whether or not the Entity contains a certain Entity
+bool Entity::hasEntity(Entity* e)
+{
+	bool has = 0;
+	for (int i = 0; i < contains.size(); i++)
+	{
+		if (e->getName() == contains[i]->getName()) {
+			has = 1;
+		}
+	}
+	return has;
+}
+
+// Adds a given Entity to the contains list
+void Entity::addContains(Entity* e)
+{
+	if (hasEntity(e)) {
+		cout << getName() << " already has " << e->getName() << endl;
+	}
+	else {
+		contains.push_back(e);
+	}
+}
+
+// Removes a given Entity from the contains list
+void Entity::removeContains(Entity* e)
+{
+	for (int i = 0; i < contains.size(); i++)
+	{
+		if (e->getName() == contains[i]->getName()) {
+			contains.erase(contains.begin() + i);
+		}
+	}
+}
+
+// Returns string of entities in contains
+string Entity::getstrContains() const
+{
+	string s = "";
+	for (int i = 0; i < contains.size(); i++)
+	{
+		s += contains[i]->getstrEntity();
+	}
+	return s;
 }

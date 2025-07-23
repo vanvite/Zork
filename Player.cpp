@@ -42,11 +42,13 @@ bool Player::getGameWon() const
 // Prints description of current room and Player status
 bool Player::Look(vector<string> action)
 {
-	// getstr
+	cout	<< getLocation()->getstrEntity()
+			<< "This room contains:\n"
+			<< getLocation()->getstrContains();
 	return 1;
 }
 
-// Moves to the adjacent room
+// Moves Player to the target room
 bool Player::Go(vector<string> action)
 {
 	if (action.size() > 1) {
