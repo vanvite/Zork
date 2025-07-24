@@ -12,11 +12,11 @@
 World::World()
 {
 	// Rooms
-	Room* roomHole = new Room("Rabbit Hole", "");
-	Room* roomWood = new Room("Tulgey Wood", "");
-	Room* roomHouse = new Room("White Rabbit's House", "");
-	Room* roomParty = new Room("Tea Party", "");
-	Room* roomGarden = new Room("Queen's Garden", "A beautiful garden filled with red rose bushes.");
+	Room* roomHole = new Room("Rabbit Hole", "It's too deep to climb upwards.");
+	Room* roomWood = new Room("Tulgey Wood", "A dark, twisted forest that doesn't seem to end.");
+	Room* roomHouse = new Room("White Rabbit's House", "A little cottage with the front door left open.");
+	Room* roomParty = new Room("Tea Party", "It's always tea time here.");
+	Room* roomGarden = new Room("Queen's Garden", "A garden filled with red-painted white rose bushes.");
 	entities.push_back(roomHole);
 	entities.push_back(roomWood);
 	entities.push_back(roomHouse);
@@ -27,15 +27,16 @@ World::World()
 	alice = new Player("ALICE", " is normal in size.", roomHole);
 	entities.push_back(alice);
 
-	string dHatter = "";
-	NPC* npcHatter = new NPC("HATTER", "", roomParty, dHatter);
-	entities.push_back(npcHatter);
-	roomParty->addContains(npcHatter);
-
-	string dCat = "";
-	NPC* npcCat = new NPC("CAT", "", roomHole, dCat);
+	string dialogCat = "If you don't know where you want to go, then it doesn't matter which path you take... \
+Collect what you can. Use it wisely.";
+	NPC* npcCat = new NPC("CAT", "The Cheshire Cat is floating around with a mysterious grin.", roomHole, dialogCat);
 	entities.push_back(npcCat);
 	roomHole->addContains(npcCat);
+
+	string dialogHatter = "Why is it you're always too small or too tall? Curiouser and curiouser!";
+	NPC* npcHatter = new NPC("HATTER", "The Mad Hatter is seated at the head of the long table.", roomParty, dialogHatter);
+	entities.push_back(npcHatter);
+	roomParty->addContains(npcHatter);
 
 	// Rabbit Hole exits and items
 	Exit* exitHoleW = new Exit("West Exit", "A small brown door.", ExitDirection::WEST, roomHole, roomWood, 1);
@@ -84,7 +85,7 @@ World::World()
 	// Queen's Garden exits and items
 	Exit* exitGardenN = new Exit("North Exit", "An open pathway.", ExitDirection::NORTH, roomGarden, roomHouse, 0);
 	Exit* exitGardenW = new Exit("West Exit", "An open gate.", ExitDirection::WEST, roomGarden, roomParty, 0);
-	Item* itemToolshed = new Item("TOOLSHED", "descr");
+	Item* itemToolshed = new Item("TOOLSHED", "The shelves are filled with bits and bobs.");
 	Item* itemGears = new Item("GEARS", "This looks like the missing clock pieces!");
 	entities.push_back(exitGardenN);
 	entities.push_back(exitGardenW);
