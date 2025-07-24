@@ -1,12 +1,12 @@
 # About
 
-myZork - a simple text-based game inspired by Zork (1977 game) and Alice's Adventures in Wonderland (1865 novel)
+Welcome to myZork - a simple text-based game inspired by Zork (1977 game) and Alice's Adventures in Wonderland (1865 novel). Play as Alice interacting with creatures and objects as she tries to find her way back home.
 
 ### Author
 Van Vite - Created using Visual Studio 2019 Community for a C++ assignment
 
 ### Links
-[GitHub Repository]()
+[GitHub Repository](https://github.com/vanvite/Zork)
 
 [MIT License](/LICENSE)
 
